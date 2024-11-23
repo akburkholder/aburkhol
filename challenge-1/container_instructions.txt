@@ -1,0 +1,60 @@
+######## example output untarring file and building container ########
+
+┌──(user㉿kali)-[~/tmp]
+└─$ ls
+aburkhol.tar.gz
+                                                                                         
+┌──(user㉿kali)-[~/tmp]
+└─$ tar xzf aburkhol.tar.gz
+                                                                                         
+┌──(user㉿kali)-[~/tmp]
+└─$ ls
+aburkhol  aburkhol.tar.gz
+                                                                                         
+┌──(user㉿kali)-[~/tmp]
+└─$ cd aburkhol 
+                                                                                         
+┌──(user㉿kali)-[~/tmp/aburkhol]
+└─$ ls
+Dockerfile  README.md  problem.md  puffin.jpg  solver
+                                                                                         
+┌──(user㉿kali)-[~/tmp/aburkhol]
+└─$ sudo docker build -t aburkhol . 
+DEPRECATED: The legacy builder is deprecated and will be removed in a future release.
+            Install the buildx component to build images with BuildKit:
+            https://docs.docker.com/go/buildx/
+
+Sending build context to Docker daemon  3.458MB
+Step 1/6 : FROM ubuntu@sha256:e3f92abc0967a6c19d0dfa2d55838833e947b9d74edbcb0113e48535ad4be12a AS base
+ ---> 28bc33afd4c9
+Step 2/6 : RUN mkdir /challenge &&     chmod 700 /challenge
+ ---> Using cache
+ ---> 0f6bc1a96228
+Step 3/6 : COPY puffin.jpg /app/
+ ---> Using cache
+ ---> ae51c3ab2e53
+Step 4/6 : WORKDIR /app
+ ---> Using cache
+ ---> fd3892fc342d
+Step 5/6 : RUN tar czvf /challenge/artifacts.tar.gz puffin.jpg &&     echo "{\"flag\":\"puff1n5_4r3_cu73_TqWy26\"}" > /challenge/metadata.json
+ ---> Running in 28699a3dba23
+puffin.jpg
+ ---> Removed intermediate container 28699a3dba23
+ ---> a748381ad034
+Step 6/6 : CMD ["tail", "-f", "/dev/null"]
+ ---> Running in 3a8378c3fd32
+ ---> Removed intermediate container 3a8378c3fd32
+ ---> bb7b24c1a4ae
+Successfully built bb7b24c1a4ae
+Successfully tagged aburkhol:latest
+                                                                                         
+┌──(user㉿kali)-[~/tmp/aburkhol]
+└─$ sudo docker run -it aburkhol /bin/bash
+root@f5727f134d69:/app# ls
+puffin.jpg
+root@f5727f134d69:/app# ls ../challenge/
+artifacts.tar.gz  metadata.json
+root@f5727f134d69:/app# exit
+exit
+
+
